@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -24,21 +25,21 @@ earlier adventurers. The only exit is to the south."""),
 
 # Link rooms together
 
-room['outside'].n_to = room['foyer']
-room['foyer'].s_to = room['outside']
-room['foyer'].n_to = room['overlook']
-room['foyer'].e_to = room['narrow']
-room['overlook'].s_to = room['foyer']
-room['narrow'].w_to = room['foyer']
-room['narrow'].n_to = room['treasure']
-room['treasure'].s_to = room['narrow']
+room['outside'].n_to = 'foyer'
+room['foyer'].s_to = 'outside'
+room['foyer'].n_to = 'overlook'
+room['foyer'].e_to = 'narrow'
+room['overlook'].s_to = 'foyer'
+room['narrow'].w_to = 'foyer'
+room['narrow'].n_to = 'treasure'
+room['treasure'].s_to = 'narrow'
 
 #
 # Main
 #
 
-# Make a new player object that is currently in the 'outside' room.
-
+# Make a new player object that is currently in the 'outside' room
+player = Player("outside")
 # Write a loop that:
 #
 # * Prints the current room name
@@ -49,3 +50,49 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+
+def north():
+    if(room[player.location].n_to != ""):
+        print("  Player moves North")
+        player.location = room[player.location].n_to
+        # print("player location ", room[player.location])
+        # print("room n to: ", room[player.location].n_to)
+
+
+def south():
+    if(room[player.location].s_to != ""):
+        print("  Player moves South")
+        player.location = room[player.location].s_to
+
+
+def east():
+    if(room[player.location].e_to != ""):
+        print("  Player moves East")
+        player.location = room[player.location].e_to
+
+
+def west():
+    if(room[player.location].w_to != ""):
+        print("  Player moves West")
+        player.location = room[player.location].w_to
+
+
+x = ''
+while x != "q":
+    print(room[player.location].name)
+    print(room[player.location].description)
+    # print(room[player.location])
+    # print("Room keys", room.keys())
+
+    x = input(">")
+    if(len(x) == 0):
+        print("")
+    elif(x == "n"):
+        north()
+    elif(x == "s"):
+        south()
+    elif(x == "e"):
+        east()
+    elif(x == "w"):
+        west()
